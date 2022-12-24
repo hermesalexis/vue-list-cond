@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goals">
+      <h2>My course goals</h2>
+      <input type="text" v-model="enteredGoalValue" />
+      <button @click="addGoal">Add Goal</button>
+      <!-- v-if permite rederizar un elemento html si se cumple la condición
+           v-else-if y v-else se debe utilizar en el elemento siguente al que tiene el v-if,
+           esta clausula es similar a tiener
+          if (condition) {
+
+          } else if (condition) {
+
+          }
+          v-show es otra alternativa a v-if, la diferencia es que el v-show
+          si renderiza el elemento html sólo que con la propiedad de display: none, lo
+          que implica que no se adiciona o se elimina un elemento cada vez que se cumpla
+          una condición, lo que impacta el performance.
+          v-show se debe utilizar cuando tengo elementos que cambian su visibilidad constantemente
+      -->
+      <p v-if="goals.length === 0">
+        No goals have been added yet - please start adding some!
+      </p>
+      <!-- <ul v-show="goals.length > 0"> -->
+      <ul v-else="goals.length > 0">
+        <!--
+          v-for se utiliza para iterar listas, similiar a un for.
+          La notación sin index es goal in goals, pero si quiero acceder al index
+          es (goal, index) in goals
+
+          el atributo key se debería utilizar siempre cuando se vaya a utilizar un v-for
+          para dentificar cada elemento, en este caso se utiliza goal, pero en otro contexto
+          sería el id de la base de datos, con esto se evita que cuando se elimine un elemento se
+          rendericen correctamente los que quedan.
+        -->
+        <li v-for="(goal, index) in goals" :key="goal" @click="removeGoal(index)">
+          <p>{{ goal }} - {{ index }}</p>
+          <!-- @click.stop cancela la propagación del evento que viene del padre, en este caso
+            el método removeGoal
+          -->
+          <input type="text" @click.stop>
+        </li>
+      </ul>
+      <!-- <ul>
+          v-for también sirve para rendeizar un objeto, se puede iterar por los key values
+        <li v-for="(value, key, index) in {name: 'Hermes', age: '31'}"> {{key}}: {{ value }} - {{ index }} </li>
+      </ul> -->
+
+      <!-- <ul>
+        v-for también itera sobre arreglos numéricos
+        <li v-for="num in 10"> {{num}} </li>
+      </ul> -->
+    </section>
+  </body>
+</html>
